@@ -3,11 +3,11 @@
       <h1 class="display-4 text-center">Hızlı Yazma Yarışması</h1>
       <p class="lead text-center font-weight-bolder">Ne kadar hızlı yazdığını test et!</p>
       <div v-if="isFinish" class="alert alert-primary">
-        <h3>Süre Bitti!</h3>
-        <p class="display-4">{{ dks }} DKS</p>
-        <p>Doğruluk Yüzdesi: %{{ truePercent }}</p>
-        <p>Doğru Kelime Sayısı: {{ trueCount }}</p>
-        <p>Yanlış Kelime Sayısı: {{ falseCount }}</p>
+        <h2>Süre Bitti!</h2>
+        <p class="display-5">{{ dks }} DKS</p>
+        <p><b>Doğruluk Yüzdesi:</b> %{{ truePercent }}</p>
+        <p><b>Doğru Kelime Sayısı:</b> {{ trueCount }}</p>
+        <p><b>Yanlış Kelime Sayısı:</b> {{ falseCount }}</p>
         <button @click="newGame" class="btn btn-success">Yeni Oyun</button>
       </div>
       <div v-else>
@@ -32,8 +32,8 @@
               </button>
               <button :disabled="isRunning" class="btn btn-info rounded-0" type="button" @click="getWords()">Yenile
               </button>
-              <button class="btn btn-warning rounded-0" type="button" @click="newGame">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-repeat" viewBox="0 0 16 16">
+              <button class="btn btn-warning" type="button" @click="newGame">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-repeat" viewBox="0 0 16 16">
                   <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"/>
                   <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"/>
                 </svg>
@@ -98,7 +98,7 @@ export default {
     },
 
     truePercent() {
-      let percent = (100 / this.dks).toFixed(2);
+      let percent = (100 / (this.trueCount + this.falseCount)).toFixed(2);
       let num = (percent * this.trueCount).toFixed(2);
       return isNaN(num) ? 0 : num;
     }
@@ -112,6 +112,7 @@ export default {
       this.isRunning = false;
       this.trueCount = 0;
       this.falseCount = 0;
+      this.writingWord = '';
       clearInterval(this.interval);
     },
 
@@ -146,6 +147,8 @@ export default {
     font-weight: 400 !important;
 }
 
+.card:nth-child(2n) {background: #494949}
+
 .card-body {
   word-wrap: break-word;
   font-family: 'Times New Roman', Times, serif;
@@ -161,7 +164,17 @@ input.form-control {font-size: 20px !important}
     color: #fff !important;
     font-family: 'Lato', sans-serif !important;
 }
+.btn-info:hover {opacity: .95}
+.btn-warning {
+  border-radius: 0 !important;
+  border-top-right-radius: 5px !important;
+  border-bottom-right-radius: 5px !important;
+}
 
+.btn-warning svg {
+  fill: #fff;
+  font-weight: 900;
+}
 .words {
   font-size: 28px;
   font-weight: 500;
